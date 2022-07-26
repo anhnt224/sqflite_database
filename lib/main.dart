@@ -52,10 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
     addNewUser(newUser);
   }
 
-  void _onButtonTap(){
-    print('Tap');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             InputForm(
               onUpdated: _onUpdated,
-              onButtonTap: _onButtonTap,
             ),
             Expanded(
               child: ListView(
@@ -128,9 +123,8 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class InputForm extends StatefulWidget {
-  const InputForm({Key? key, required this.onUpdated, required this.onButtonTap}) : super(key: key);
+  const InputForm({Key? key, required this.onUpdated}) : super(key: key);
   final ValueChanged<User> onUpdated;
-  final Function onButtonTap;
 
   @override
   State<InputForm> createState() => _InputFormState();
@@ -187,12 +181,6 @@ class _InputFormState extends State<InputForm> {
             },
             child: const Text('Add'),
           ),
-          TextButton(
-            onPressed: () {
-              widget.onButtonTap();
-            },
-            child: const Text('Add'),
-          )
         ],
       ),
     );
