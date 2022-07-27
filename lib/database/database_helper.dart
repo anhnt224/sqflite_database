@@ -3,13 +3,12 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_database/model/user.dart';
 
-class UserDatabase {
-  static final UserDatabase instance = UserDatabase._init();
+class DatabaseHelper {
+  DatabaseHelper._init();
+  static final DatabaseHelper instance = DatabaseHelper._init();
 
   static Database? _database;
   static String userTable = '_userTable';
-
-  UserDatabase._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -26,15 +25,11 @@ class UserDatabase {
   }
 
   Future _createDB(Database db, int version) async {
-    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    const nameType = 'TEXT';
-    const ageType = 'INTEGER NOT NULL';
-
     await db.execute('''
     CREATE TABLE $userTable(
-    ${UserFields.id} $idType,
-    ${UserFields.name} $nameType,
-    ${UserFields.age} $ageType
+    ${UserFields.id} ${DatabaseType.intPrimaryKey},
+    ${UserFields.name} ${DatabaseType.text},
+    ${UserFields.age} ${DatabaseType.intNotNull}
     )
     ''');
   }
@@ -60,4 +55,10 @@ class UserDatabase {
     final db = await instance.database;
     db.close();
   }
+}
+
+class DatabaseType {
+  static String intPrimaryKey = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+  static String text = 'TEXT';
+  static String intNotNull = 'INTEGER NOT NULL';
 }

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:sqflite_database/database/user_database.dart';
+import 'package:sqflite_database/database/database_helper.dart';
 import 'package:sqflite_database/model/user.dart';
 
 void main() {
@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void dispose() {
-    UserDatabase.instance.close();
+    DatabaseHelper.instance.close();
     super.dispose();
   }
 
@@ -105,19 +105,19 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future addNewUser(User user) async {
-    await UserDatabase.instance.create(user);
+    await DatabaseHelper.instance.create(user);
     refreshUsers();
   }
 
   Future refreshUsers() async {
-    var userList = await UserDatabase.instance.getAllUsers();
+    var userList = await DatabaseHelper.instance.getAllUsers();
     setState(() {
       users = userList;
     });
   }
 
   Future deleteUser(int id) async {
-    await UserDatabase.instance.deleteUser(id);
+    await DatabaseHelper.instance.deleteUser(id);
     refreshUsers();
   }
 }
